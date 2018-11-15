@@ -236,7 +236,7 @@
 				$order = $db['ret']->query("UPDATE `ordertable` SET ".$value." WHERE `id` = ".$object['id']);
 				
 				$filename = $object['id'].'-'.$object['code_booking'].'_1.jpg';
-				$url_path = __DIR__ .'/backend/assets/photo/nota/customer/'.$filename;
+				$url_path = '/backend/assets/photo/nota/customer/'.$filename;
 				$img = stripslashes($object['nota_1']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
@@ -248,7 +248,7 @@
 				
 				if ($object['nota_2'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_2.jpg';
-					$url_path = __DIR__ .'/backend/assets/photo/nota/customer/'.$filename;
+					$url_path = '/backend/assets/photo/nota/customer/'.$filename;
 					$img = stripslashes($object['nota_2']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
@@ -260,7 +260,7 @@
 				}
 				if ($object['nota_3'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_3.jpg';
-					$url_path = __DIR__ .'/backend/assets/photo/nota/customer/'.$filename;
+					$url_path = '/backend/assets/photo/nota/customer/'.$filename;
 					$img = stripslashes($object['nota_3']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
@@ -353,7 +353,7 @@
 				
 				
 				$filename = $object['id'].'-'.$object['code_booking'].'_1.jpg';
-				$url_path = __DIR__ .'/backend/assets/photo/nota/retailer/'.$filename;
+				$url_path = '/backend/assets/photo/nota/retailer/'.$filename;
 				$img = stripslashes($object['nota_1']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
@@ -365,7 +365,7 @@
 				
 				if ($object['nota_2'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_2.jpg';
-					$url_path = __DIR__ .'/backend/assets/photo/nota/retailer/'.$filename;
+					$url_path = '/backend/assets/photo/nota/retailer/'.$filename;
 					$img = stripslashes($object['nota_2']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
@@ -377,7 +377,7 @@
 				}
 				if ($object['nota_3'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_3.jpg';
-					$url_path = __DIR__ .'/backend/assets/photo/nota/retailer/'.$filename;
+					$url_path = '/backend/assets/photo/nota/retailer/'.$filename;
 					$img = stripslashes($object['nota_3']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);

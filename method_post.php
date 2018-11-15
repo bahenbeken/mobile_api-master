@@ -13,7 +13,7 @@
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
 				$data = base64_decode($img);
-				$file = __DIR__ .'/backend/assets/photo/customer/test.jpg';
+				$file = __DIR__ . '/backend/assets/photo/customer/test.jpg';
 				$success = file_put_contents($file, $data);
 				
 				// Create success data
@@ -133,7 +133,7 @@
 				
 				$id = $db['ret']->lastInsertId();
 				$filename = $id.'.jpg';
-				$url_path = __DIR__ .'/backend/assets/photo/customer/'.$filename;
+				$url_path = '/backend/assets/photo/customer/'.$filename;
 				$img = stripslashes($object['photo']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
@@ -171,7 +171,7 @@
 									
 				$id = $db['ret']->lastInsertId();
 				$filename = $id.'.jpg';
-				$url_path = __DIR__ .'/backend/assets/photo/retailer/'.$filename;
+				$url_path = '/backend/assets/photo/retailer/'.$filename;
 				$img = stripslashes($object['photo']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
