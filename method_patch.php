@@ -1,10 +1,9 @@
-
 <?php
  
-	function upload_nota($table, $field, $id, $code_booking, $nama_file, $photo) {
+	function upload_nota($table, $field, $id, $nama_file, $photo) {
 		
 		$filename = $nama_file.'.jpg';
-		$url_path = '/assets/photo/nota/'.$code_booking.'/'.$filename;
+		$url_path = '/assets/photo/nota/'.$id.'-'.$filename;
 		$img = stripslashes($photo);
 		$img = str_replace('data:image/jpeg;base64,', '', $img);
 		$img = str_replace(' ', '+', $img);
@@ -12,7 +11,7 @@
 		$file = __DIR__ . $url_path;
 		$success = file_put_contents($file, $data64);
 		
-		$query = $db['ret']->query("UPDATE $table SET $field='$filename' where `id` = '$id'");
+		$query = $db['ret']->query("UPDATE $table SET $field='$filename' where `id` = $id");
 		
 	}
 
@@ -195,7 +194,7 @@
 		}
 
 		/** Form : Taking Orders for update approved date */
-		if(isset($_GET['taking-orders-update-approved'])) {
+		else if(isset($_GET['taking-orders-update-approved'])) {
 			// Save data
 			try {
 				// Initialize value
@@ -204,16 +203,8 @@
 				$value .= "`delivery_status` = 'Y',";
 				$value .= "`approved_date` = '". $today ."' ";
 				
-				if ($object['kode_voucher'] != null || $object['kode_voucher'] != '') }
-					$value .= ",`kode_voucher` = '". $object['kode_voucher'] ."' ";
-				}
-				
 				// Execute query
 				$order = $db['ret']->query("UPDATE `ordertable` SET ".$value." WHERE `id` = ".$object['id']);
-				
-				upload_nota('ordertable','nota_1', $object['id'], $object['code_booking'], $object['code_booking'].'_1', $object['nota_1'] );
-				upload_nota('ordertable','nota_2', $object['id'], $object['code_booking'], $object['code_booking'].'_2', $object['nota_2'] );
-				upload_nota('ordertable','nota_3', $object['id'], $object['code_booking'], $object['code_booking'].'_3', $object['nota_3'] ); 
 				
 				// Create success data
 				$data['data']['id']= $object['id'];
@@ -223,11 +214,78 @@
 				// Create error data
 				$data['data'] = $e->getMessage();
 				$data['error'] = "Failed to update order!";
+			} catch(Exception $e) {
+				$data['data'] = $e->getMessage();
+				$data['error'] = "Failed to update order!";
 			}
 		}
-		
+		else if(isset($_GET['taking-orders-update-approved-2'])) {
+			// Save data
+			try {
+				// Initialize value
+				$value = "";
+				$today = date("Y-m-d");
+				$value .= "`delivery_status` = 'Y',";
+				$value .= "`approved_date` = '". $today ."' ";
+				
+				if ($object['kode_voucher'] != null && $object['kode_voucher'] != '') {
+					$value .= ",`kode_voucher` = '". $object['kode_voucher'] ."' ";
+				}
+				
+				// Execute query
+				$order = $db['ret']->query("UPDATE `ordertable` SET ".$value." WHERE `id` = ".$object['id']);
+				
+				$filename = $object['id'].'-'.$object['code_booking'].'_1.jpg';
+				$url_path = '/assets/photo/nota/customer/'.$filename;
+				$img = stripslashes($object['nota_1']);
+				$img = str_replace('data:image/jpeg;base64,', '', $img);
+				$img = str_replace(' ', '+', $img);
+				$data64 = base64_decode($img);
+				$file = __DIR__ . $url_path;
+				$success = file_put_contents($file, $data64);
+				
+				$query = $db['ret']->query("UPDATE `ordertable` SET `nota_1`='$filename' where `id` = ".$object['id']);
+				
+				if ($object['nota_2'] != '' ) {
+					$filename = $object['id'].'-'.$object['code_booking'].'_2.jpg';
+					$url_path = '/assets/photo/nota/customer/'.$filename;
+					$img = stripslashes($object['nota_2']);
+					$img = str_replace('data:image/jpeg;base64,', '', $img);
+					$img = str_replace(' ', '+', $img);
+					$data64 = base64_decode($img);
+					$file = __DIR__ . $url_path;
+					$success = file_put_contents($file, $data64);
+					
+					$query = $db['ret']->query("UPDATE `ordertable` SET `nota_2`='$filename' where `id` = ".$object['id']);
+				}
+				if ($object['nota_3'] != '' ) {
+					$filename = $object['id'].'-'.$object['code_booking'].'_3.jpg';
+					$url_path = '/assets/photo/nota/customer/'.$filename;
+					$img = stripslashes($object['nota_3']);
+					$img = str_replace('data:image/jpeg;base64,', '', $img);
+					$img = str_replace(' ', '+', $img);
+					$data64 = base64_decode($img);
+					$file = __DIR__ . $url_path;
+					$success = file_put_contents($file, $data64);
+					
+					$query = $db['ret']->query("UPDATE `ordertable` SET `nota_3`='$filename' where `id` = ".$object['id']);
+				}
+				
+				// Create success data
+				$data['data']['id']= $object['id'];
+				$data['success'] = "Success update an order!";
+				
+			} catch(PDOException $e) {
+				// Create error data
+				$data['data'] = $e->getMessage();
+				$data['error'] = "Failed to update order!";
+			} catch(Exception $e) {
+				$data['data'] = $e->getMessage();
+				$data['error'] = "Failed to update order!";
+			}
+		}
 		/** Form : Taking Orders for update canceled date */
-		if(isset($_GET['taking-orders-update-canceled'])) {
+		else if(isset($_GET['taking-orders-update-canceled'])) {
 			// Save data
 			try {
 				// Initialize value
@@ -264,17 +322,71 @@
 				$value .= "`approved_date` = '". $today ."' ";
 				
 				// Execute query
+				$order = $db['ret']->query("UPDATE `orderretailtable` SET ".$value." WHERE `id` = ".$object['id']);
 				
-				if ($object['kode_voucher'] != null || $object['kode_voucher'] != '') }
+				// Create success data
+				$data['data']['id']= $object['id'];
+				$data['success'] = "Success update an order!";
+				
+			} catch(PDOException $e) {
+				// Create error data
+				$data['data'] = $e->getMessage();
+				$data['error'] = "Failed to update order!";
+			}
+		}
+		else if(isset($_GET['taking-orders-retail-update-approved-2'])) {
+			// Save data
+			try {
+				// Initialize value
+				$value = "";
+				$today = date("Y-m-d");
+				$value .= "`delivery_status` = 'Y',";
+				$value .= "`approved_date` = '". $today ."' ";
+				
+				// Execute query
+				if ($object['kode_voucher'] != null && $object['kode_voucher'] != '') {
 					$value .= ",`kode_voucher` = '". $object['kode_voucher'] ."' ";
 				}
 				
 				// Execute query
 				$order = $db['ret']->query("UPDATE `orderretailtable` SET ".$value." WHERE `id` = ".$object['id']);
 				
-				upload_nota('orderretailtable','nota_1', $object['id'], $object['code_booking'], $object['code_booking'].'_1', $object['nota_1'] );
-				upload_nota('orderretailtable','nota_2', $object['id'], $object['code_booking'], $object['code_booking'].'_2', $object['nota_2'] );
-				upload_nota('orderretailtable','nota_3', $object['id'], $object['code_booking'], $object['code_booking'].'_3', $object['nota_3'] ); 
+				
+				$filename = $object['id'].'-'.$object['code_booking'].'_1.jpg';
+				$url_path = '/assets/photo/nota/retailer/'.$filename;
+				$img = stripslashes($object['nota_1']);
+				$img = str_replace('data:image/jpeg;base64,', '', $img);
+				$img = str_replace(' ', '+', $img);
+				$data64 = base64_decode($img);
+				$file = __DIR__ . $url_path;
+				$success = file_put_contents($file, $data64);
+				
+				$query = $db['ret']->query("UPDATE `orderretailtable` SET `nota_1`='$filename' where `id` = ".$object['id']);
+				
+				if ($object['nota_2'] != '' ) {
+					$filename = $object['id'].'-'.$object['code_booking'].'_2.jpg';
+					$url_path = '/assets/photo/nota/retailer/'.$filename;
+					$img = stripslashes($object['nota_2']);
+					$img = str_replace('data:image/jpeg;base64,', '', $img);
+					$img = str_replace(' ', '+', $img);
+					$data64 = base64_decode($img);
+					$file = __DIR__ . $url_path;
+					$success = file_put_contents($file, $data64);
+					
+					$query = $db['ret']->query("UPDATE `orderretailtable` SET `nota_2`='$filename' where `id` = ".$object['id']);
+				}
+				if ($object['nota_3'] != '' ) {
+					$filename = $object['id'].'-'.$object['code_booking'].'_3.jpg';
+					$url_path = '/assets/photo/nota/retailer/'.$filename;
+					$img = stripslashes($object['nota_3']);
+					$img = str_replace('data:image/jpeg;base64,', '', $img);
+					$img = str_replace(' ', '+', $img);
+					$data64 = base64_decode($img);
+					$file = __DIR__ . $url_path;
+					$success = file_put_contents($file, $data64);
+					
+					$query = $db['ret']->query("UPDATE `orderretailtable` SET `nota_3`='$filename' where `id` = ".$object['id']);
+				}
 				
 				// Create success data
 				$data['data']['id']= $object['id'];
@@ -312,199 +424,7 @@
 				$data['data'] = $e->getMessage();
 				$data['error'] = "Failed to update order!";
 			}
-		}
-
-		// /** Form : Taking Orders for update closed date */
-		// if(isset($_GET['taking-orders-update'])) {
-		// 	// Save data
-		// 	try {
-		// 		// Initialize value
-		// 		$value = "";
-				
-		// 		// Validate each column
-		// 		if($object['delivery_status'] != null)
-		// 			$value .= "`delivery_status` = '" . $object['delivery_status'] . "',";
-				
-		// 		if($object['closed_date'] != null)
-		// 			$today = date("Y-m-d");
-		// 			$value .= "`closed_date` = '". $today ."',";
-				
-		// 		// Remove right comma
-		// 		$value = rtrim($value, ",");
-				
-		// 		// Execute query
-		// 		$order = $db['ret']->query("UPDATE `ordertable` SET $value WHERE `id` = $object[id]");
-				
-		// 		if($order) {
-		// 			// Create success data
-		// 			$data['success'] = "Success update an order!";
-		// 		}
-		// 		else {
-		// 			// Create error data
-		// 			$data['error'] = "Failed to update order!";
-		// 		}
-		// 	} catch(PDOException $e) {
-		// 		// Create error data
-		// 		$data['error'] = $e->getMessage();
-		// 	}
-		// }
-
-		// /** Form : Confirm Order Customer*/
-		// else if(isset($_GET['order-trans-update'])) {
-		// 	// Save data
-		// 	try {
-		// 		// Initialize value
-		// 		$value = "";
-				
-		// 		// Validate each column
-		// 		if($object['qty'] != null)
-		// 			$value .= "`qty` = " . $object['qty'] . ",";
-				
-		// 		if($object['discount'] != null)
-		// 			$value .= "`discount` = " . $object['discount'] . ",";
-				
-		// 		if($object['total_amount'] != null)
-		// 			$value .= "`total_amount` = '" . $object['total_amount'] . "',";
-				
-		// 		// Remove right comma
-		// 		$value = rtrim($value, ",");
-				
-		// 		// Execute query
-		// 		$order = $db['ret']->query("UPDATE `ordertranstable` SET $value WHERE `id` = $object[id]");
-				
-		// 		if($order) {
-		// 			// Create success data
-		// 			$data['success'] = "Success update an order!";
-		// 		}
-		// 		else {
-		// 			// Create error data
-		// 			$data['error'] = "Failed to update order!";
-		// 		}
-		// 	} catch(PDOException $e) {
-		// 		// Create error data
-		// 		$data['error'] = $e->getMessage();
-		// 	}
-		// }
-
-		// /** Form : Confirm Order Customer*/
-		// else if(isset($_GET['order-trans-update-retail'])) {
-		// 	// Save data
-		// 	try {
-		// 		// Initialize value
-		// 		$value = "";
-				
-		// 		// Validate each column
-		// 		if($object['qty'] != null)
-		// 			$value .= "`qty` = " . $object['qty'] . ",";
-		// 		console.log("QTY di PHP" + $object['qty']);
-				
-		// 		if($object['discount'] != null)
-		// 			$value .= "`discount` = " . $object['discount'] . ",";
-		// 		console.log("DISC di PHP" + $object['discount']);
-				
-		// 		if($object['total_amount'] != null)
-		// 			$value .= "`total_amount` = '" . $object['total_amount'] . "',";
-		// 		console.log("TOTAL AMOUNT di PHP" + $object['total_amount']);
-				
-		// 		// Remove right comma
-		// 		$value = rtrim($value, ",");
-				
-		// 		// Execute query
-		// 		$order = $db['ret']->query("UPDATE `orderretailtranstable` SET $value WHERE `id` = $object[id]");
-				
-		// 		if($order) {
-		// 			// Create success data
-		// 			$data['success'] = "Success update an order!";
-		// 		}
-		// 		else {
-		// 			// Create error data
-		// 			$data['error'] = "Failed to update order!";
-		// 		}
-		// 	} catch(PDOException $e) {
-		// 		// Create error data
-		// 		$data['error'] = $e->getMessage();
-		// 	}
-		// }
-		
-		// /** Form : Taking Orders Retail for update (confirm)*/
-		// else if(isset($_GET['taking-orders-retail-update'])) {
-		// 	// Save data
-		// 	try {
-		// 		// Initialize value
-		// 		$value = "";
-				
-		// 		// Validate each column
-		// 		if($object['delivery_status'] != null)
-		// 			$value .= "`delivery_status` = '" . $object['delivery_status'] . "',";
-				
-		// 		if($object['closed_date'] != null)
-		// 			$today = date("Y-m-d");
-		// 			$value .= "`closed_date` = '". $today ."',";
-				
-		// 		// Remove right comma
-		// 		$value = rtrim($value, ",");
-				
-		// 		// Execute query
-		// 		$order = $db['ret']->query("UPDATE `orderretailtable` SET $value WHERE `id` = $object[id]");
-				
-		// 		if($order) {
-		// 			// Create success data
-		// 			$data['success'] = "Success update an order!";
-		// 		}
-		// 		else {
-		// 			// Create error data
-		// 			$data['error'] = "Failed to update order!";
-		// 		}
-		// 	} catch(PDOException $e) {
-		// 		// Create error data
-		// 		$data['error'] = $e->getMessage();
-		// 	}
-		// }
-
-		// /** Form : Users */
-		// else if(isset($_GET['users'])) {
-		// 	// Save data
-		// 	try {
-		// 		// Initialize value
-		// 		$value = "";
-				
-		// 		// Validate each column
-		// 		/* if(isset($object['type']))
-		// 			$value .= "`type` = '" . $object['type'] . "',"; */
-				
-		// 		/* if(isset($object['username']))
-		// 			$value .= "`username` = '" . $object['username'] . "',"; */
-				
-		// 		if(isset($object['password']))
-		// 			$value .= "`password` = '" . $object['password'] . "',";
-				
-		// 		/* if(isset($object['email']))
-		// 			$value .= "`email` = '" . $object['email'] . "',";
-				
-		// 		if(isset($object['token']))
-		// 			$value .= "`token` = '" . $object['token'] . "',"; */
-				
-		// 		// Remove right comma
-		// 		$value = rtrim($value, ",");
-				
-		// 		// Execute query
-		// 		$order = $db['ret']->query("UPDATE `usertable` SET $value WHERE `id` = $object[id]");
-				
-		// 		if($order) {
-		// 			// Create success data
-		// 			$data['success'] = "Success update an user!";
-		// 		}
-		// 		else {
-		// 			// Create error data
-		// 			$data['error'] = "Failed to update user!";
-		// 		}
-		// 	} catch(PDOException $e) {
-		// 		// Create error data
-		// 		$data['error'] = $e->getMessage();
-		// 	}
-		// }
-		
-		else {
+		} else {
 			// Create error data
 			$data['error'] = "Form is not provided";
 		}

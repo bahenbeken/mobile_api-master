@@ -149,6 +149,8 @@
 			} catch(PDOException $e) {
 				// Create error data
 				$data['error'] = $e->getMessage();
+			} catch(Exception $e) {
+				$data['error'] = "Failed to update order!";
 			}
 		}
 

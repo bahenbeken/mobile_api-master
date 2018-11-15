@@ -41,8 +41,8 @@
             require_once "method_patch.php";
         
         // Method #4 : DELETE
-        else if($_SERVER['REQUEST_METHOD'] == "DELETE")
-            require_once "method_delete.php";
+        // else if($_SERVER['REQUEST_METHOD'] == "DELETE")
+            // require_once "method_delete.php";
         
         /** END : Processing Server Request */
     }
