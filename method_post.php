@@ -133,7 +133,7 @@
 				
 				$id = $db['ret']->lastInsertId();
 				$filename = $id.'.jpg';
-				$url_path = '/backend/assets/photo/customer/'.$filename;
+				$url_path = '/../backend/assets/photo/customer/'.$filename;
 				$img = stripslashes($object['photo']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
@@ -171,7 +171,7 @@
 									
 				$id = $db['ret']->lastInsertId();
 				$filename = $id.'.jpg';
-				$url_path = '/backend/assets/photo/retailer/'.$filename;
+				$url_path = '/../backend/assets/photo/retailer/'.$filename;
 				$img = stripslashes($object['photo']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
