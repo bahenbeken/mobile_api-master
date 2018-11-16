@@ -3,13 +3,12 @@
 	function upload_nota($table, $field, $id, $nama_file, $photo) {
 		
 		$filename = $nama_file.'.jpg';
-		$url_path = '/var/www/html/backend/backend/assets/photo/nota/'.$id.'-'.$filename;
+		$url_path = '/../assets/photo/nota/'.$id.'-'.$filename;
 		$img = stripslashes($photo);
 		$img = str_replace('data:image/jpeg;base64,', '', $img);
 		$img = str_replace(' ', '+', $img);
 		$data64 = base64_decode($img);
-		//$file = __DIR__ . $url_path;
-		$file = $url_path;
+		$file = __DIR__ . $url_path;
 		$success = file_put_contents($file, $data64);
 		
 		$query = $db['ret']->query("UPDATE $table SET $field='$filename' where `id` = $id");
@@ -237,39 +236,36 @@
 				$order = $db['ret']->query("UPDATE `ordertable` SET ".$value." WHERE `id` = ".$object['id']);
 				
 				$filename = $object['id'].'-'.$object['code_booking'].'_1.jpg';
-				$url_path = '/var/www/html/backend/assets/photo/nota/customer/'.$filename;
+				$url_path = '/../assets/photo/nota/customer/'.$filename;
 				$img = stripslashes($object['nota_1']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
 				$data64 = base64_decode($img);
-				//$file = __DIR__ . $url_path;
-				$file = $url_path;
+				$file = __DIR__ . $url_path;
 				$success = file_put_contents($file, $data64);
 				
 				$query = $db['ret']->query("UPDATE `ordertable` SET `nota_1`='$filename' where `id` = ".$object['id']);
 				
 				if ($object['nota_2'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_2.jpg';
-					$url_path = '/var/www/html/backend/assets/photo/nota/customer/'.$filename;
+					$url_path = '/../assets/photo/nota/customer/'.$filename;
 					$img = stripslashes($object['nota_2']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
 					$data64 = base64_decode($img);
-					//$file = __DIR__ . $url_path;
-					$file = $url_path;
+					$file = __DIR__ . $url_path;
 					$success = file_put_contents($file, $data64);
 					
 					$query = $db['ret']->query("UPDATE `ordertable` SET `nota_2`='$filename' where `id` = ".$object['id']);
 				}
 				if ($object['nota_3'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_3.jpg';
-					$url_path = '/var/www/html/backend/assets/photo/nota/customer/'.$filename;
+					$url_path = '/../assets/photo/nota/customer/'.$filename;
 					$img = stripslashes($object['nota_3']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
 					$data64 = base64_decode($img);
-					//$file = __DIR__ . $url_path;
-					$file = $url_path;
+					$file = __DIR__ . $url_path;
 					$success = file_put_contents($file, $data64);
 					
 					$query = $db['ret']->query("UPDATE `ordertable` SET `nota_3`='$filename' where `id` = ".$object['id']);
@@ -357,39 +353,36 @@
 				
 				
 				$filename = $object['id'].'-'.$object['code_booking'].'_1.jpg';
-				$url_path = '/var/www/html/backend/assets/photo/nota/retailer/'.$filename;
+				$url_path = '/../assets/photo/nota/retailer/'.$filename;
 				$img = stripslashes($object['nota_1']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
 				$data64 = base64_decode($img);
-				//$file = __DIR__ . $url_path;
-				$file = $url_path;
+				$file = __DIR__ . $url_path;
 				$success = file_put_contents($file, $data64);
 				
 				$query = $db['ret']->query("UPDATE `orderretailtable` SET `nota_1`='$filename' where `id` = ".$object['id']);
 				
 				if ($object['nota_2'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_2.jpg';
-					$url_path = '/var/www/html/backend/assets/photo/nota/retailer/'.$filename;
+					$url_path = '/../assets/photo/nota/retailer/'.$filename;
 					$img = stripslashes($object['nota_2']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
 					$data64 = base64_decode($img);
-					//file = __DIR__ . $url_path;
-					file = $url_path;
+					$file = __DIR__ . $url_path;
 					$success = file_put_contents($file, $data64);
 					
 					$query = $db['ret']->query("UPDATE `orderretailtable` SET `nota_2`='$filename' where `id` = ".$object['id']);
 				}
 				if ($object['nota_3'] != '' ) {
 					$filename = $object['id'].'-'.$object['code_booking'].'_3.jpg';
-					$url_path = '/var/www/html/backend/assets/photo/nota/retailer/'.$filename;
+					$url_path = '/../assets/photo/nota/retailer/'.$filename;
 					$img = stripslashes($object['nota_3']);
 					$img = str_replace('data:image/jpeg;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
 					$data64 = base64_decode($img);
-					//$file = __DIR__ . $url_path;
-					$file = $url_path;
+					$file = __DIR__ . $url_path;
 					$success = file_put_contents($file, $data64);
 					
 					$query = $db['ret']->query("UPDATE `orderretailtable` SET `nota_3`='$filename' where `id` = ".$object['id']);

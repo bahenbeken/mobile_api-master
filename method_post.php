@@ -13,8 +13,7 @@
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
 				$data = base64_decode($img);
-				//$file = __DIR__ . '/backend/assets/photo/customer/test.jpg';
-				$file = '/var/www/html/backend/assets/photo/customer/test.jpg';
+				$file = __DIR__ . '/../assets/photo/customer/test.jpg';
 				$success = file_put_contents($file, $data);
 				
 				// Create success data
@@ -134,13 +133,12 @@
 				
 				$id = $db['ret']->lastInsertId();
 				$filename = $id.'.jpg';
-				$url_path = '/var/www/html/backend/backend/assets/photo/customer/'.$filename;
+				$url_path = '/../assets/photo/customer/'.$filename;
 				$img = stripslashes($object['photo']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
 				$data64 = base64_decode($img);
-				//$file = __DIR__ . $url_path;
-				$file = $url_path;
+				$file = __DIR__ . $url_path;
 				$success = file_put_contents($file, $data64);
 				
 				$query = $db['ret']->query("UPDATE `custtable` SET `photo`='$filename' where `id` = '$id'");
@@ -173,13 +171,12 @@
 									
 				$id = $db['ret']->lastInsertId();
 				$filename = $id.'.jpg';
-				$url_path = '/var/www/html/backend/backend/assets/photo/retailer/'.$filename;
+				$url_path = '/../assets/photo/retailer/'.$filename;
 				$img = stripslashes($object['photo']);
 				$img = str_replace('data:image/jpeg;base64,', '', $img);
 				$img = str_replace(' ', '+', $img);
 				$data64 = base64_decode($img);
-				//$file = __DIR__ . $url_path;
-				$file = $url_path;
+				$file = __DIR__ . $url_path;
 				$success = file_put_contents($file, $data64);
 				
 				$query = $db['ret']->query("UPDATE `retailtable` SET `photo`='$filename' where `id` = '$id'");
